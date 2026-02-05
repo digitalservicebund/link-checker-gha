@@ -58,7 +58,8 @@ runs:
         MERGE_SCRIPT='
           (.error_map | to_entries | map({
             key: .key,
-            value: [.value[] | { url: .url, status_code: .status.code }]
+            # filter out timeout errors (use only those with status code)
+            value: [.value[] | select(.status.code) | { url: .url, status_code: .status.code }]
           }) | from_entries) as $errors |
           (.redirect_map | to_entries | map({
             key: .key,
@@ -96,7 +97,7 @@ runs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": ("*<\(.key)|\(.key)>*\n" + ([.value[] | if .status_code then "   ❌ <\(.url)|broken link>" else "   ⚠️ <\(.url)|link> leads to <\(.dest_url)|another destination>" end] | join("\n")))
+                  "text": ("*<\(.key)|\(.key)>*\n" + ([.value[] | if .status_code then "   ❌ <\(.url)|broken link>" elif .dest_url then "   ⚠️ <\(.url)|link> leads to <\(.dest_url)|another destination>" else empty end] | join("\n")))
                 }
               })
             ]

@@ -5,7 +5,7 @@ test SITEMAP_URL:
 # Preview changelog for unreleased changes
 changelog:
     git-cliff --unreleased
-    
+
 # Bump version, update changelog, commit, and tag
 release:
     #!/usr/bin/env bash
