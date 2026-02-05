@@ -1,0 +1,20 @@
+name: Link Checker Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      sitemap_url:
+        description: "The URL of the sitemap.xml to parse"
+        required: true
+        default: "https://zfl.bund.de/sitemap-0.xml"
+        type: string
+
+jobs:
+  link-checker-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: test
+        uses: ./
+        with:
+          SITEMAP_URL: ${{ inputs.sitemap_url }}
