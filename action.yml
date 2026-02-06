@@ -14,6 +14,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Setup working-directory
+      shell: bash
+      run: mkdir -p "${{ inputs.LYCHEE_DIR }}"
+
     - name: Restore lychee cache
       id: restore-cache
       uses: actions/cache/restore@v4
@@ -29,24 +33,19 @@ runs:
         lycheeVersion: v0.22.0
         args: --version
 
-    - name: Run Sitemap Check and Generate Payload
-      id: process-links
+    - name: Run Sitemap Check
+      id: check-links
       shell: bash
+      working-directory: ${{ inputs.LYCHEE_DIR }}
       env:
         SITEMAP_URL: ${{ inputs.SITEMAP_URL }}
-        LYCHEE_DIR: ${{ inputs.LYCHEE_DIR }}
       run: |
         set -e
 
-        mkdir -p "$LYCHEE_DIR"
-        cd "$LYCHEE_DIR"
-
-        BASE_URL=$(echo "$SITEMAP_URL" | sed -e 's|^[^/]*//||' -e 's|/.*$||')
-
-
-        # 1. Download and Check
+        # Save page URLs from sitemap to urls.txt
         curl -sSfL "$SITEMAP_URL" | lychee --dump --exclude 'schemas' - | sed 's|http://|https://|g' > urls.txt
 
+        # Run lychee link checker for all page URLs
         lychee --cache --max-cache-age 1d \
           --max-redirects 5 \
           --verbose \
@@ -54,7 +53,18 @@ runs:
           --exclude '.js|/api/' \
           --format json $(cat urls.txt) > output.json || true  # || true to prevent early exit
 
-        # 2. Merge logic (using a variable to keep the YAML clean)
+    - name: Generate Slack Payload
+      id: generate-payload
+      shell: bash
+      working-directory: ${{ inputs.LYCHEE_DIR }}
+      env:
+        SITEMAP_URL: ${{ inputs.SITEMAP_URL }}
+      run: |
+        set -e
+
+        BASE_URL=$(echo "$SITEMAP_URL" | sed -e 's|^[^/]*//||' -e 's|/.*$||')
+
+        # 1. Merge logic (using a variable to keep the YAML clean)
         MERGE_SCRIPT='
           (.error_map | to_entries | map({
             key: .key,
@@ -81,8 +91,7 @@ runs:
         '
         jq "$MERGE_SCRIPT" output.json > merged_issues.json
 
-        # 3. Slack Payload logic
-        # We use a single-quoted string for the script to avoid shell expansion
+        # 2. Transform merged_issues.json into Slack payload format
         SLACK_SCRIPT='
           {
             "blocks": [
@@ -110,7 +119,7 @@ runs:
         jq . slack_payload.json
         echo "--- DEBUG: SLACK PAYLOAD END ---"
 
-        # 5. Check if we have issues to report (blocks length > 1 because of header)
+        # Check if we have issues to report (blocks length > 1 because of header)
         if [ "$(jq '.blocks | length' slack_payload.json)" -gt 1 ]; then
           echo "HAS_ISSUES=true" >> $GITHUB_OUTPUT
         else
@@ -118,7 +127,7 @@ runs:
         fi
 
     - name: Post results to Slack
-      if: steps.process-links.outputs.HAS_ISSUES == 'true'
+      if: steps.generate-payload.outputs.HAS_ISSUES == 'true'
       # third-party action, pin to commit SHA
       uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
       with:

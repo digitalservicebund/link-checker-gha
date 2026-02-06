@@ -10,14 +10,14 @@ It checks all links on all pages from a `SITEMAP_URL` you provide using [lychee]
 
 Run it in a scheduled workflow:
 
-```
+```yaml
 name: Links
 
 on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "0 10 * * 1"  # every Monday at 10 am
+    - cron: "0 10 * * 1" # every Monday at 10 am
 
 jobs:
   link-checker:
@@ -38,10 +38,10 @@ To test the action locally, use [act](https://github.com/nektos/act):
 act -j link-checker-test --bind
 ```
 
-With the `--bind` flag, debug files will remain in the `/lychee` dir.
+With the `--bind` flag, debug files will remain in the `./lychee` dir.
 
 You can also test the action with a custom `SITEMAP_URL` using [just](https://github.com/casey/just) as a command runner:
 
-```
+```sh
 just test https://yoursite.com/sitemap.xml
 ```
