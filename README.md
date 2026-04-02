@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Link Checker
-        uses: digitalservicebund/link-checker-gha@v1
+        uses: digitalservicebund/link-checker-gha@165923b00da8132980cacb787e4646645137115f
         with:
           SITEMAP_URL: "https://yoursite.com/sitemap.xml" # <- CHANGE THIS
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
