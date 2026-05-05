@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.0..v2.0.1) - 2026-05-05
+
+### 📚 Documentation
+
+- **readme:** upd commit sha in example - ([6d4323e](https://github.com/digitalservicebund/link-checker-gha/commit/6d4323e853a1001d01365058e061a135176518b1))
+
 ## [2.0.0](https://github.com/digitalservicebund/link-checker-gha/compare/v1.1.0..v2.0.0) - 2026-05-05
 
 ### 🚀 Features
