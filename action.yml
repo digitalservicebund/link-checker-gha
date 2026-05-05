@@ -136,7 +136,7 @@ runs:
         payload-file-path: ./${{ inputs.LYCHEE_DIR }}/slack_payload.json
 
     - name: Save lychee cache
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       if: always()
       with:
         path: ${{ inputs.LYCHEE_DIR }}/.lycheecache
