@@ -4,7 +4,7 @@
 
 This GHA detects broken links in a website and reports them to Slack.
 
-It checks all links on all pages from a `SITEMAP_URL` you provide using [lychee](https://lychee.cli.rs/). A report will be send to your Slack with a provided `SLACK_WEBHOOK_URL`.
+It checks all links on all pages from a `SITEMAP_URL` you provide using [lychee](https://lychee.cli.rs/). A report will be sent to your Slack channel using a bot token.
 
 ## Usage
 
@@ -27,7 +27,8 @@ jobs:
         uses: digitalservicebund/link-checker-gha@165923b00da8132980cacb787e4646645137115f
         with:
           SITEMAP_URL: "https://yoursite.com/sitemap.xml" # <- CHANGE THIS
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
 ```
 
 ## Test

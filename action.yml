@@ -4,8 +4,11 @@ inputs:
   SITEMAP_URL:
     description: "Entrypoint: All links on all pages in the sitemap will be scanned"
     required: true
-  SLACK_WEBHOOK_URL:
-    description: "URL that tells Slack which channel should receive the report"
+  SLACK_BOT_TOKEN:
+    description: "Bot token for the Slack app used to post the report"
+    required: true
+  SLACK_CHANNEL_ID:
+    description: "ID of the Slack channel to post the report to"
     required: true
   LYCHEE_DIR:
     description: "Working directory for lychee cache and output files"
@@ -59,6 +62,7 @@ runs:
       working-directory: ${{ inputs.LYCHEE_DIR }}
       env:
         SITEMAP_URL: ${{ inputs.SITEMAP_URL }}
+        SLACK_CHANNEL_ID: ${{ inputs.SLACK_CHANNEL_ID }}
       run: |
         set -e
 
@@ -94,6 +98,7 @@ runs:
         # 2. Transform merged_issues.json into Slack payload format
         SLACK_SCRIPT='
           {
+            "channel": $channel,
             "blocks": [
               {
                 "type": "section",
@@ -112,7 +117,7 @@ runs:
             ]
           }
         '
-        jq --arg base_url "$BASE_URL" "$SLACK_SCRIPT" merged_issues.json > slack_payload.json
+        jq --arg base_url "$BASE_URL" --arg channel "$SLACK_CHANNEL_ID" "$SLACK_SCRIPT" merged_issues.json > slack_payload.json
 
         echo ""
         echo "--- DEBUG: SLACK PAYLOAD START ---"
@@ -129,10 +134,10 @@ runs:
     - name: Post results to Slack
       if: steps.generate-payload.outputs.HAS_ISSUES == 'true'
       # third-party action, pin to commit SHA
-      uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
+      uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
       with:
-        webhook: ${{ inputs.SLACK_WEBHOOK_URL }}
-        webhook-type: incoming-webhook
+        method: chat.postMessage
+        token: ${{ inputs.SLACK_BOT_TOKEN }}
         payload-file-path: ./${{ inputs.LYCHEE_DIR }}/slack_payload.json
 
     - name: Save lychee cache
