@@ -1,3 +1,9 @@
+## [2.0.0](https://github.com/digitalservicebund/link-checker-gha/compare/v1.1.0..v2.0.0) - 2026-05-05
+
+### 🚀 Features
+
+-  [**breaking**]replace SLACK_WEBHOOK_URL with SLACK_BOT_TOKEN and SLACK_CHANNEL_ID - ([2b63dfa](https://github.com/digitalservicebund/link-checker-gha/commit/2b63dfab998185d3d0df06ec64461587655cdc6c))
+
 ## [1.1.0](https://github.com/digitalservicebund/link-checker-gha/compare/v1.0.1..v1.1.0) - 2026-05-05
 
 ### 🚀 Features
