@@ -1,5 +1,8 @@
 name: Link Checker Test
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
