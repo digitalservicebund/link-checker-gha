@@ -10,22 +10,20 @@ inputs:
   SLACK_CHANNEL_ID:
     description: "ID of the Slack channel to post the report to"
     required: true
-  LYCHEE_DIR:
-    description: "Working directory for lychee cache and output files"
-    required: false
-    default: "lychee"
 runs:
   using: composite
   steps:
     - name: Setup working-directory
       shell: bash
-      run: mkdir -p "${{ inputs.LYCHEE_DIR }}"
+      run: |
+        echo "LYCHEE_DIR=lychee" >> "$GITHUB_ENV"
+        mkdir -p "lychee"
 
     - name: Restore lychee cache
       id: restore-cache
       uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
-        path: ${{ inputs.LYCHEE_DIR }}/.lycheecache
+        path: ${{ env.LYCHEE_DIR }}/.lycheecache
         key: cache-lychee-${{ github.sha }}
         restore-keys: cache-lychee-
 
@@ -39,7 +37,7 @@ runs:
     - name: Run Sitemap Check
       id: check-links
       shell: bash
-      working-directory: ${{ inputs.LYCHEE_DIR }}
+      working-directory: ${{ env.LYCHEE_DIR }}
       env:
         SITEMAP_URL: ${{ inputs.SITEMAP_URL }}
       run: |
@@ -59,7 +57,7 @@ runs:
     - name: Generate Slack Payload
       id: generate-payload
       shell: bash
-      working-directory: ${{ inputs.LYCHEE_DIR }}
+      working-directory: ${{ env.LYCHEE_DIR }}
       env:
         SITEMAP_URL: ${{ inputs.SITEMAP_URL }}
         SLACK_CHANNEL_ID: ${{ inputs.SLACK_CHANNEL_ID }}
@@ -138,11 +136,11 @@ runs:
       with:
         method: chat.postMessage
         token: ${{ inputs.SLACK_BOT_TOKEN }}
-        payload-file-path: ./${{ inputs.LYCHEE_DIR }}/slack_payload.json
+        payload-file-path: ./${{ env.LYCHEE_DIR }}/slack_payload.json
 
     - name: Save lychee cache
       uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       if: always()
       with:
-        path: ${{ inputs.LYCHEE_DIR }}/.lycheecache
+        path: ${{ env.LYCHEE_DIR }}/.lycheecache
         key: ${{ steps.restore-cache.outputs.cache-primary-key }}
