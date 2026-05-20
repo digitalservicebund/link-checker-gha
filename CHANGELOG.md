@@ -1,3 +1,13 @@
+## [2.0.2](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.1..v2.0.2) - 2026-05-20
+
+### 🚜 Refactor
+
+- make LYCHEE_DIR not user-controlled - ([1a27915](https://github.com/digitalservicebund/link-checker-gha/commit/1a279151c47d20dba71c4f1a93867b67acf90cf5))
+
+### ⚙️ Miscellaneous Tasks
+
+- **test.yml:** add workflow permission - ([8e8dd9d](https://github.com/digitalservicebund/link-checker-gha/commit/8e8dd9d374b9d6e2d546bfad9ed4a0af52a28997))
+
 ## [2.0.1](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.0..v2.0.1) - 2026-05-05
 
 ### 📚 Documentation
