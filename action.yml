@@ -98,12 +98,13 @@ runs:
         SLACK_SCRIPT='
           {
             "channel": $channel,
+            "text": "*LinkChecker* found \(to_entries | map(.value | length) | add) issues on \($base_url)",
             "blocks": [
               {
                 "type": "section",
                 "text": { 
                   "type": "mrkdwn", 
-                  "text": "*LinkChecker* found \(to_entries | map(.value | length) | add) issues on \($base_url):" 
+                  "text": "*LinkChecker* found \(to_entries | map(.value | length) | add) issues on \($base_url):"
                 }
               },
               (to_entries[] | {
