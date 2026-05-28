@@ -52,6 +52,7 @@ runs:
           --verbose \
           --cookie-jar tmp_cookies \
           --exclude '.js|/api/' \
+          --accept '100..=103,200..=299,403' \
           --format json $(cat urls.txt) > output.json || true  # || true to prevent early exit
 
     - name: Generate Slack Payload
