@@ -1,3 +1,13 @@
+## [2.0.3](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.2..v2.0.3) - 2026-05-28
+
+### 🐛 Bug Fixes
+
+- **slack:** add missing top-level 'text' arg - ([6532289](https://github.com/digitalservicebund/link-checker-gha/commit/65322894e62d91d27e109e5b8ace1ca329441bfa))
+
+### ⚙️ Miscellaneous Tasks
+
+- accept 403 (forbidden) - ([69feeef](https://github.com/digitalservicebund/link-checker-gha/commit/69feeef4e6704ba212e0579b87fa8f17ef45daa9))
+
 ## [2.0.2](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.1..v2.0.2) - 2026-05-20
 
 ### 🚜 Refactor
