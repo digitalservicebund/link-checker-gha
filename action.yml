@@ -10,6 +10,10 @@ inputs:
   SLACK_CHANNEL_ID:
     description: "ID of the Slack channel to post the report to"
     required: true
+  CHECK_ARGS:
+    description: "Optional additional arguments to pass to lychee link checker (e.g., '--exclude .js|/api/')"
+    required: false
+    default: "--exclude .js|/api/"
 runs:
   using: composite
   steps:
@@ -33,13 +37,13 @@ runs:
       with:
         lycheeVersion: v0.22.0
         args: --version
-
     - name: Run Sitemap Check
       id: check-links
       shell: bash
       working-directory: ${{ env.LYCHEE_DIR }}
       env:
         SITEMAP_URL: ${{ inputs.SITEMAP_URL }}
+        CHECK_ARGS: ${{ inputs.CHECK_ARGS }}
       run: |
         set -e
 
@@ -51,7 +55,7 @@ runs:
           --max-redirects 5 \
           --verbose \
           --cookie-jar tmp_cookies \
-          --exclude '.js|/api/' \
+          $CHECK_ARGS \
           --accept '100..=103,200..=299,403' \
           --format json $(cat urls.txt) > output.json || true  # || true to prevent early exit
 

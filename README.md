@@ -29,6 +29,7 @@ jobs:
           SITEMAP_URL: "https://yoursite.com/sitemap.xml" # <- CHANGE THIS
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          CHECK_ARGS: --exclude .js|/api/
 ```
 
 ## Test
