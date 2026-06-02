@@ -1,3 +1,9 @@
+## [2.1.0](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.3..v2.1.0) - 2026-06-02
+
+### 🚀 Features
+
+- allow custom CHECK_ARGS input - ([4c356ed](https://github.com/digitalservicebund/link-checker-gha/commit/4c356edcbdace9f291bf4d8f48ec597fa7ecac0d))
+
 ## [2.0.3](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.2..v2.0.3) - 2026-05-28
 
 ### 🐛 Bug Fixes
