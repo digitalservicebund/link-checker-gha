@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/digitalservicebund/link-checker-gha/compare/v2.1.0..v2.1.1) - 2026-07-24
+
+### ⚙️ Miscellaneous Tasks
+
+- **justfile:** rm manual release cmd - ([33ac640](https://github.com/digitalservicebund/link-checker-gha/commit/33ac640c6e70314345b2497e33bbef4e3bb5108f))
+
 ## [2.1.0](https://github.com/digitalservicebund/link-checker-gha/compare/v2.0.3..v2.1.0) - 2026-06-02
 
 ### 🚀 Features
