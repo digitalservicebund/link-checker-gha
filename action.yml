@@ -118,7 +118,9 @@ runs:
                   "text": ("*<\(.key)|\(.key)>*\n" + ([.value[] | if .status_code then "   ❌ <\(.url)|broken link>" elif .dest_url then "   ⚠️ <\(.url)|link> leads to <\(.dest_url)|another destination>" else empty end] | join("\n")))
                 }
               })
-            ]
+            ],
+            "unfurl_links": false,
+            "unfurl_media": false,
           }
         '
         jq --arg base_url "$BASE_URL" --arg channel "$SLACK_CHANNEL_ID" "$SLACK_SCRIPT" merged_issues.json > slack_payload.json
