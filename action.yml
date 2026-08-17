@@ -35,7 +35,7 @@ runs:
       # third-party action, pin to commit SHA
       uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
       with:
-        lycheeVersion: v0.22.0
+        lycheeVersion: v0.24.2
         args: --version
     - name: Run Sitemap Check
       id: check-links
@@ -53,7 +53,7 @@ runs:
         # Run lychee link checker for all page URLs
         lychee --cache --max-cache-age 1d \
           --max-redirects 5 \
-          --verbose \
+          -vv \
           --cookie-jar tmp_cookies \
           $CHECK_ARGS \
           --accept '100..=103,200..=299,403' \
