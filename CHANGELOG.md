@@ -1,3 +1,9 @@
+## [2.1.2](https://github.com/digitalservicebund/link-checker-gha/compare/v2.1.1..v2.1.2) - 2026-08-17
+
+### ⚙️ Miscellaneous Tasks
+
+- **slack:** disable unfurl_links - ([d6d564e](https://github.com/digitalservicebund/link-checker-gha/commit/d6d564e91369377f06bb79cfc4f3b476d4f26d15))
+
 ## [2.1.1](https://github.com/digitalservicebund/link-checker-gha/compare/v2.1.0..v2.1.1) - 2026-07-24
 
 ### ⚙️ Miscellaneous Tasks
